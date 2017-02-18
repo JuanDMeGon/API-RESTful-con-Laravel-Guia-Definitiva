@@ -28,6 +28,8 @@ class BuyerController extends Controller
      */
     public function show($id)
     {
-        //
+        $comprador = Buyer::has('transactions')->findOrFail($id);
+
+        return response()->json(['data' => $comprador], 200);
     }
 }
