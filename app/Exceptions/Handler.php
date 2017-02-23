@@ -56,6 +56,11 @@ class Handler extends ExceptionHandler
             $modelo = strtolower(class_basename($exception->getModel()));
             return $this->errorResponse("No existe ninguna instancia de {$modelo} con el id especificado", 404);
         }
+
+        if ($exception instanceof AuthenticationException) {
+            return $this->unauthenticated($request, $e);
+        }
+
         return parent::render($request, $exception);
     }
 
@@ -68,11 +73,7 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest('login');
+        return $this->errorResponse('No autenticado.', 401);        
     }
 
     /**
