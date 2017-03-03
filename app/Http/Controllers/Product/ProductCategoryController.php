@@ -42,8 +42,14 @@ class ProductCategoryController extends ApiController
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, Category $category)
     {
-        //
+        if (!$product->categories()->find($category->id)) {
+            return $this->errorResponse('La categoría especificada no es una categoría de este producto', 404);
+        }
+
+        $product->categories()->detach([$category->id]);
+
+        return $this->showAll($product->categories);
     }
 }
