@@ -59,3 +59,4 @@ Route::resource('sellers.transactions', 'Seller\SellerTransactionController', ['
  * Users
  */
 Route::resource('users', 'User\UserController', ['except' => ['create', 'edit']]);
+Route::name('verify')->get('users/verify/{token}', 'User\UserController@verify');
