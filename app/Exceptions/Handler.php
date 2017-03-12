@@ -6,6 +6,7 @@ use Exception;
 use App\Traits\ApiResponser;
 use Illuminate\Database\QueryException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -63,7 +64,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof AuthenticationException) {
-            return $this->unauthenticated($request, $e);
+            return $this->unauthenticated($request, $exception);
         }
 
         if ($exception instanceof AuthorizationException) {
@@ -88,6 +89,10 @@ class Handler extends ExceptionHandler
             if ($codigo == 1451) {
                 return $this->errorResponse('No se puede eliminar de forma permamente el recurso porque está relacionado con algún otro.', 409);
             }
+        }
+
+        if ($exception instanceof TokenMismatchException) {
+            return redirect()->back()->withInput($request->input());
         }
 
         if (config('app.debug')) {
