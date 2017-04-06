@@ -1,36 +1,19 @@
----
-ip: "192.168.10.11"
+ip: 192.168.10.11
 memory: 512
 cpus: 1
-hostname: apirestful
-name: apirestful
 provider: virtualbox
-
 authorize: ~/.ssh/id_rsa.pub
-
 keys:
     - ~/.ssh/id_rsa
-
 folders:
-    - map: "C:/APIRestful"
-      to: "/home/vagrant/apirestful"
-
+    -
+        map: 'C:\APIRESTful'
+        to: /home/vagrant/apirestful
 sites:
-    - map: apirestful.dev
-      to: "/home/vagrant/apirestful/public"
-
+    -
+        map: apirestful.dev
+        to: /home/vagrant/apirestful/public
 databases:
     - homestead
-
-# blackfire:
-#     - id: foo
-#       token: bar
-#       client-id: foo
-#       client-token: bar
-
-# ports:
-#     - send: 50000
-#       to: 5000
-#     - send: 7777
-#       to: 777
-#       protocol: udp
+name: apirestful
+hostname: apirestful
