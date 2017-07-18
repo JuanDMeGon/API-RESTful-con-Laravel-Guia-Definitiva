@@ -12,6 +12,7 @@ class BuyerController extends ApiController
     {
         parent::__construct();
         $this->middleware('scope:read-general')->only('show');
+        $this->middleware('can:view,buyer')->only('show');
     }
     
     /**
