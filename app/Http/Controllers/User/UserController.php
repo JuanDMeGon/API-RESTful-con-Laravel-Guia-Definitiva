@@ -28,6 +28,8 @@ class UserController extends ApiController
      */
     public function index()
     {
+        $this->allowedAdminAction();
+        
         $usuarios = User::all();
 
         return $this->showAll($usuarios);
@@ -104,6 +106,8 @@ class UserController extends ApiController
         }
 
         if ($request->has('admin')) {
+            $this->allowedAdminAction();
+        
             if (!$user->esVerificado()) {
                 return $this->errorResponse('Unicamente los usuarios verificados pueden cambiar su valor de administrador', 409);
             }
