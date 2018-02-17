@@ -11,7 +11,7 @@ folders:
         to: /home/vagrant/apirestful
 sites:
     -
-        map: apirestful.dev
+        map: apirestful.test
         to: /home/vagrant/apirestful/public
 databases:
     - homestead
