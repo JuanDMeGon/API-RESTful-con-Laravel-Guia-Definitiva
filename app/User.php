@@ -2,11 +2,12 @@
 
 namespace App;
 
-use Laravel\Passport\HasApiTokens;
 use App\Transformers\UserTransformer;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -47,7 +48,7 @@ class User extends Authenticatable
         'remember_token',
         'verification_token',
     ];
-    
+
     public function setNameAttribute($valor)
     {
         $this->attributes['name'] = strtolower($valor);
@@ -63,9 +64,6 @@ class User extends Authenticatable
         $this->attributes['email'] = strtolower($valor);
     }
 
-
-
-
     public function esVerificado()
     {
         return $this->verified == User::USUARIO_VERIFICADO;
@@ -78,6 +76,6 @@ class User extends Authenticatable
 
     public static function generarVerificationToken()
     {
-        return str_random(40);
+        return Str::random(40);
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
-use App\User;
-use App\Seller;
-use App\Product;
 use App\Category;
+use App\Product;
+use App\Seller;
 use App\Transaction;
+use App\User;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
         'verified' => $verificado = $faker->randomElement([User::USUARIO_VERIFICADO, User::USUARIO_NO_VERIFICADO]),
         'verification_token' => $verificado == User::USUARIO_VERIFICADO ? null : User::generarVerificationToken(),
         'admin' => $faker->randomElement([User::USUARIO_ADMINISTRADOR, User::USUARIO_REGULAR]),
@@ -33,7 +34,6 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Category::class, function (Faker\Generator $faker) {
-
     return [
         'name' => $faker->word,
         'description' => $faker->paragraph(1),
@@ -41,7 +41,6 @@ $factory->define(Category::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Product::class, function (Faker\Generator $faker) {
-
     return [
         'name' => $faker->word,
         'description' => $faker->paragraph(1),
@@ -54,9 +53,8 @@ $factory->define(Product::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Transaction::class, function (Faker\Generator $faker) {
-
-	$vendedor = Seller::has('products')->get()->random();
-	$comprador = User::all()->except($vendedor->id)->random();
+    $vendedor = Seller::has('products')->get()->random();
+    $comprador = User::all()->except($vendedor->id)->random();
 
     return [
         'quantity' => $faker->numberBetween(1, 3),
